@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>90 Proof Studios</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      color: #111;
+    }
+    header, section, footer {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-top: 0;
+    }
+    .cta-button {
+      background-color: #FFD300;
+      color: #111;
+      padding: 12px 24px;
+      border: none;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 20px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .features {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .feature {
+      width: 30%;
+      background: #f8f8f8;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .packages {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .package {
+      width: 30%;
+      background: #f1f1f1;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    footer {
+      font-size: 0.9rem;
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    a {
+      color: #111;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Design That Hits Different.</h1>
+  <p>Logos and one-page websites for creators, founders, and digital hustlers — delivered in 72 hours or less.</p>
+  <a href="#" class="cta-button">Book Your Build</a>
+</header>
+
+<section>
+  <h2>Your Brand. Distilled and Delivered.</h2>
+  <div class="features">
+    <div class="feature">
+      <h3>Premium Logo</h3>
+      <p>Multiple styles, formats (SVG, PNG, IG-ready)</p>
+    </div>
+    <div class="feature">
+      <h3>One-Page Website</h3>
+      <p>Built to convert on Framer, Webflow, or Carrd</p>
+    </div>
+    <div class="feature">
+      <h3>Fast Turnaround</h3>
+      <p>Delivered in 72 hours with 2 revision rounds</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Why 90 Proof?</h2>
+  <div class="packages">
+    <div class="package">
+      <h3>Starter Shot</h3>
+      <p>$150</p>
+      <p>Logo + 2 concepts<br>1 revision</p>
+      <a href="#" class="cta-button">Book This Package</a>
+    </div>
+    <div class="package">
+      <h3>Launch Kit</h3>
+      <p>$450</p>
+      <p>Logo + One-page web<br>2 concepts, 2 revisions</p>
+      <a href="#" class="cta-button">Book This Package</a>
+    </div>
+    <div class="package">
+      <h3>Creator Pack</h3>
+      <p>$700</p>
+      <p>Logo, Website<br>IG/YouTube banners<br>Brand Sheet<br>Priority delivery</p>
+      <a href="#" class="cta-button">Book This Package</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Stopp/Vuur Proof. Start Building.</h2>
+    <section id="intake-form"
+                style="padding: 40px; text-align: center;">
+  <h2>Client Intake Form</h2>
+  <p>Tell us what you're building — we'll get you branded and online in 72 hours.</p>
+
+  <form action="/submit" method="POST" style="max-width: 600px; margin: auto; text-align: left;">
+    <label for="name">Full Name</label><br>
+    <input type="text" name="name" id="name" required style="width: 100%; padding: 10px; margin-bottom: 20px;"><br>
+
+    <label for="email">Email Address</label><br>
+    <input type="email" name="email" id="email" required style="width: 100%; padding: 10px; margin-bottom: 20px;"><br>
+
+    <label for="business">Business Name or Project Title</label><br>
+    <input type="text" name="business" id="business" required style="width: 100%; padding: 10px; margin-bottom: 20px;"><br>
+
+    <label for="description">Briefly Describe Your Brand or Vision</label><br>
+    <textarea name="description" id="description" rows="4" required style="width: 100%; padding: 10px; margin-bottom: 20px;"></textarea><br>
+
+    <label for="package">Select a Package</label><br>
+    <select name="package" id="package" required style="width: 100%; padding: 10px; margin-bottom: 20px;">
+      <option value="">-- Choose One --</option>
+      <option value="starter">Starter Shot ($150)</option>
+      <option value="launch">Launch Kit ($450)</option>
+      <option value="creator">Creator Pack ($700)</option>
+    </select><br>
+
+    <label for="style">Any Style Preferences or Inspirations?</label><br>
+    <textarea name="style" id="style" rows="3" style="width: 100%; padding: 10px; margin-bottom: 20px;"></textarea><br>
+
+    <button type="submit" class="cta-button">Submit</button>
+  </form>
+</section>
+
+  <p>Your business <strong>deserves better</strong> than clipart and broken landing pages. Let’s fix that — this week.</p>
+  <blockquote>“90 Proof Studios had my brand up and running in 3 days. The logo slapped and the site made me look legit instantly.”<br>– Future Client #1</blockquote>
+</section>
+
+<footer>
+  <p>90 Proof Studios © 2025</p>
+  <p>Contact: hello@90proofstudios.com</p>
+  <p>
+    <a href="#">Instagram</a> |
+    <a href="#">LinkedIn</a> |
+    <a href="#">Twitter</a>
+  </p>
+</footer>
+
+</body>
+</html>
+"""
+
+# Save the file
+with open(html_file_path, "w") as f:
+    f.write(html_content.strip())
+
+html_file_path
