@@ -171,6 +171,38 @@
     </div>
   </div>
 </section>
+  <section id="intake-form" style="padding: 40px; text-align: center;">
+  <h2>Client Intake Form</h2>
+  <p>Tell us what you're building — we'll get you branded and online in 72 hours.</p>
+
+  <form action="/submit" method="POST" style="max-width: 600px; margin: auto; text-align: left;">
+    <label for="name">Full Name</label><br>
+    <input type="text" name="name" id="name" required style="width: 100%; padding: 10px; margin-bottom: 20px;"><br>
+
+    <label for="email">Email Address</label><br>
+    <input type="email" name="email" id="email" required style="width: 100%; padding: 10px; margin-bottom: 20px;"><br>
+
+    <label for="business">Business Name or Project Title</label><br>
+    <input type="text" name="business" id="business" required style="width: 100%; padding: 10px; margin-bottom: 20px;"><br>
+
+    <label for="description">Briefly Describe Your Brand or Vision</label><br>
+    <textarea name="description" id="description" rows="4" required style="width: 100%; padding: 10px; margin-bottom: 20px;"></textarea><br>
+
+    <label for="package">Select a Package</label><br>
+    <select name="package" id="package" required style="width: 100%; padding: 10px; margin-bottom: 20px;">
+      <option value="">-- Choose One --</option>
+      <option value="starter">Starter Shot ($150)</option>
+      <option value="launch">Launch Kit ($450)</option>
+      <option value="creator">Creator Pack ($700)</option>
+    </select><br>
+
+    <label for="style">Any Style Preferences or Inspirations?</label><br>
+    <textarea name="style" id="style" rows="3" style="width: 100%; padding: 10px; margin-bottom: 20px;"></textarea><br>
+
+    <button type="submit" class="cta-button">Submit</button>
+  </form>
+</section>
+
 
 <section>
   <h2>Stop Waiting. Start Building.</h2>
