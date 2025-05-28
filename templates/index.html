@@ -19,6 +19,15 @@
         text-align: center;
         border-bottom: 2px solid #00DDEB;
     }
+    .site-logo {
+    display: block;
+    margin: 0 auto;
+    width: 220px;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 
     header h1 {
         color: #FFFFFF;
@@ -114,10 +123,8 @@
 <body>
 
 <header>
-   <img src="{{ url_for('static', filename='logo/90proof-logo.png') }}" 
-         alt="90 Proof Studios logo" 
-         width="220" 
-         style="margin-bottom: 20px;">
+   <img class="site-logo" src="{{ url_for('static', filename='logo/90proof-logo.png') }}" alt="90 Proof Studios logo">
+
   <h1>Design That Hits Different.</h1>
   <p>Logos and one-page websites for creators, founders, and digital hustlers — delivered in 72 hours or less.</p>
   <a href="#" class="cta-button">Book Your Build</a>
