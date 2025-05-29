@@ -21,7 +21,7 @@ def submit():
     # --- Email alert setup ---
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
-    app_password = "oifk hceq qzoq jagn"  # Replace with your real app password
+    app_password = "oifkhceqqzoqjagn"  # Replace with your real app password
 
     subject = f"New Lead: {name} – {package}"
     body = f"""\
