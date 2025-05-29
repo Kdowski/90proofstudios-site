@@ -6,6 +6,10 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/submit', methods=['POST'])
 def submit():
     name = request.form.get('name')
@@ -33,7 +37,7 @@ def submit():
 
     Submitted via 90proofstudios.com
     """
-
+    #compose email
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = receiver_email
