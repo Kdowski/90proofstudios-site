@@ -52,9 +52,7 @@ try:
     print("✅ Email sent successfully")
 except Exception as e:
     print(f"❌ Error sending email: {e}")
-
-
-    return redirect('/thankyou')
+return redirect('/thankyou')
 
 @app.route('/thankyou')
 def thankyou():
