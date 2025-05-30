@@ -89,6 +89,9 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
 
     return redirect('/thankyou')
 
+@app.route('/thankyou')
+def thankyou():
+    return render_template('thankyou.html')
 
 
 if __name__ == '__main__':
