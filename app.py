@@ -22,6 +22,9 @@ def submit():
     description = request.form.get('description')
     package = request.form.get('package')
     style = request.form.get('style')
+     if not name or not email or not package:
+        return "Missing required fields", 400
+
     # --- Email alert setup ---
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
