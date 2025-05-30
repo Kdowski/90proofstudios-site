@@ -13,7 +13,6 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
-
 @app.route('/submit', methods=['POST'])
 def submit():
     name = request.form.get('name')
@@ -25,12 +24,12 @@ def submit():
     if not name or not email or not package:
         return "Missing required fields", 400
 
-    # --- Email alert setup ---
+    # --- Email alert setup (to you) ---
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
-   
+
     subject = f"New Lead: {name} – {package}"
-    body = f"""\
+    body = f"""\ 
 You've received a new intake form submission:
 
 Full Name: {name}
@@ -43,7 +42,6 @@ Style Preferences: {style}
 Submitted via 90proofstudios.com
 """
 
-    # Create UTF-8 encoded message
     msg = MIMEText(body, 'plain', 'utf-8')
     msg['From'] = sender_email
     msg['To'] = receiver_email
@@ -53,11 +51,40 @@ Submitted via 90proofstudios.com
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(sender_email, app_password)
             server.sendmail(sender_email, receiver_email, msg.as_string())
-        print("✅ Email sent successfully")
+        print("✅ Email sent to admin")
+
+        # --- Auto-confirmation email to client ---
+        confirmation_subject = "Thanks for contacting 90 Proof Studios!"
+        confirmation_body = f"""\
+Hi {name},
+
+Thanks for reaching out to 90 Proof Studios. We’ve received your submission and will review it shortly.
+
+Here’s what you sent us:
+---------------------------------
+Business Name: {business}
+Package Selected: {package}
+Style Preferences: {style}
+
+We’ll be in touch soon to get started. If you have any questions in the meantime, just reply to this email.
+
+– The 90 Proof Studios Team
+"""
+
+        confirmation_msg = MIMEText(confirmation_body, 'plain', 'utf-8')
+        confirmation_msg['From'] = sender_email
+        confirmation_msg['To'] = email
+        confirmation_msg['Subject'] = confirmation_subject
+
+        server.sendmail(sender_email, email, confirmation_msg.as_string())
+        print("✅ Confirmation email sent to client")
+
     except Exception as e:
         print(f"❌ Error sending email: {e}")
-        
+
     return redirect('/thankyou')
+
+
     
 @app.route('/thankyou')
 def thankyou():
