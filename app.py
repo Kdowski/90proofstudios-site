@@ -22,7 +22,7 @@ def submit():
     description = request.form.get('description')
     package = request.form.get('package')
     style = request.form.get('style')
-     if not name or not email or not package:
+    if not name or not email or not package:
         return "Missing required fields", 400
 
     # --- Email alert setup ---
