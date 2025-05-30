@@ -4,6 +4,10 @@ from email.mime.multipart import MIMEMultipart
 
 from flask import Flask, render_template, request, redirect
 
+import os
+app_password = os.environ.get("EMAIL_APP_PASSWORD")
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -21,8 +25,7 @@ def submit():
     # --- Email alert setup ---
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
-    app_password = "oifkhceqqzoqjagn"  # Replace with your real app password
-
+   
     subject = f"New Lead: {name} – {package}"
     body = f"""\
 You've received a new intake form submission:
