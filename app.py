@@ -88,6 +88,11 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
 
     except Exception as e:
         print(f"❌ Error sending email: {e}")
+        
+           # --- Generate prompt & auto-email it to yourself ---
+    prompt = generate_prompt(name, description, style)
+    send_prompt_email(prompt, email, name)
+ 
 
     return redirect('/thankyou')
 
