@@ -32,7 +32,11 @@ def submit():
     receiver_email = "the90proofstudios@gmail.com"
 
     subject = f"New Lead: {name} – {package}"
-    body = f"""\
+        # Generate logo prompt
+    prompt = generate_prompt(name, description, style)
+
+    subject = f"New Lead: {name} – {package}"
+    body = f"""\ 
 You've received a new intake form submission:
 
 Full Name: {name}
@@ -41,6 +45,14 @@ Business: {business}
 Description: {description}
 Package: {package}
 Style Preferences: {style}
+
+Generated Prompt:
+-------------------------
+{prompt}
+
+Submitted via 90proofstudios.com
+"""
+
 
 Submitted via 90proofstudios.com
 """
@@ -90,8 +102,7 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
         print(f"❌ Error sending email: {e}")
         
            # --- Generate prompt & auto-email it to yourself ---
-    prompt = generate_prompt(name, description, style)
-    send_prompt_email(prompt, email, name)
+   
  
 
     return redirect('/thankyou')
