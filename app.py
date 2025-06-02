@@ -2,6 +2,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from prompt_email_util import generate_prompt, send_prompt_email
+from sheet_sync_util import append_lead_to_sheet
+
 
 
 from flask import Flask, render_template, request, redirect
@@ -97,7 +99,8 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
     except Exception as e:
         print(f"❌ Error sending email: {e}")
         
-      
+    append_lead_to_sheet(name, email, business, description, package, style)
+  
  
 
     return redirect('/thankyou')
