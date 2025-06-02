@@ -31,7 +31,6 @@ def submit():
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
 
-    subject = f"New Lead: {name} – {package}"
         # Generate logo prompt
     prompt = generate_prompt(name, description, style)
 
@@ -53,9 +52,6 @@ Generated Prompt:
 Submitted via 90proofstudios.com
 """
 
-
-Submitted via 90proofstudios.com
-"""
 
     msg = MIMEText(body, 'plain', 'utf-8')
     msg['From'] = sender_email
@@ -101,8 +97,7 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
     except Exception as e:
         print(f"❌ Error sending email: {e}")
         
-           # --- Generate prompt & auto-email it to yourself ---
-   
+      
  
 
     return redirect('/thankyou')
