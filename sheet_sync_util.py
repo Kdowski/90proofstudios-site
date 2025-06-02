@@ -1,23 +1,22 @@
-
 import os
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 
-# Define the Google Sheets API scope
-SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+# Define the scopes
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
 
-# Get credentials from service account JSON
 def get_gsheet_client():
     creds_path = os.environ.get("GOOGLE_SHEET_CREDS_JSON")
-    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_path, SCOPE)
-    return gspread.authorize(creds)
+    credentials = Credentials.from_service_account_file(creds_path, scopes=SCOPE)
+    return gspread.authorize(credentials)
 
-# Append a new row to the spreadsheet
 def append_lead_to_sheet(name, email, business, description, package, style):
     try:
         client = get_gsheet_client()
         sheet = client.open("90ProofStudios_Leads").sheet1
-
         sheet.append_row([name, email, business, package, style, description])
         print("🟢 Lead synced to Google Sheet.")
     except Exception as e:
