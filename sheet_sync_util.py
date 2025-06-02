@@ -14,10 +14,7 @@ def get_gsheet_client():
     return gspread.authorize(credentials)
 
 def append_lead_to_sheet(name, email, business, description, package, style):
-    try:
-        client = get_gsheet_client()
-        sheet = client.open("90ProofStudios_Leads").sheet1
-        sheet.append_row([name, email, business, package, style, description])
-        print("🟢 Lead synced to Google Sheet.")
-    except Exception as e:
-        print(f"❌ Error syncing to Google Sheet: {e}")
+    client = get_gsheet_client()
+    sheet = client.open("90ProofStudios_Leads").sheet1
+    sheet.append_row([name, email, business, package, style, description])
+    print("🟢 Lead synced to Google Sheet.")
