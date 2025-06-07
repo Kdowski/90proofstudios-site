@@ -32,7 +32,8 @@ def submit():
         return "Missing required fields", 400
 
     # Generate AI image prompt
-    prompt = generate_prompt(name, description, style)
+    prompt = generate_prompt_via_openai(name, description, style)
+
 
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
