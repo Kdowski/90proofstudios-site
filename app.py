@@ -32,22 +32,22 @@ def submit():
     if not name or not email or not package:
         return "Missing required fields", 400
 
-    # Generate AI image prompt
+    # Generate image prompt and image URL
     try:
-        prompt = generate_prompt_openai(name, business, description, style)
-        send_prompt_email(prompt, email, name)
+        prompt = generate_prompt(name, description, style)
+        image_url = generate_image_url(prompt)
+        send_prompt_email(prompt, image_url, email, name)
     except Exception as e:
-        print(f"❌ Failed to generate or email prompt: {e}")
+        print(f"❌ Failed to generate or email prompt/image: {e}")
         prompt = "Prompt generation failed"
+        image_url = "No image URL"
 
-
-
+    # Compose email to admin
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
-
     subject = f"New Lead: {name} – {package}"
-    body = f"""\
-You've received a new intake form submission:
+
+    body = f"""You've received a new intake form submission:
 
 Full Name: {name}
 Email: {email}
@@ -60,6 +60,10 @@ Style Preferences: {style}
 -----------------------------------
 {prompt}
 
+🖼️ Image URL:
+-----------------------------------
+{image_url}
+
 Submitted via 90proofstudios.com
 """
 
@@ -68,10 +72,9 @@ Submitted via 90proofstudios.com
     msg['To'] = receiver_email
     msg['Subject'] = subject
 
-    # Auto-confirmation email to client
+    # Confirmation email to client
     confirmation_subject = "Thanks for contacting 90 Proof Studios!"
-    confirmation_body = f"""\
-Hi {name},
+    confirmation_body = f"""Hi {name},
 
 Thanks for reaching out to 90 Proof Studios. We’ve received your submission and will review it shortly.
 
@@ -91,6 +94,7 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
     confirmation_msg['To'] = email
     confirmation_msg['Subject'] = confirmation_subject
 
+    app_password = os.environ.get("EMAIL_APP_PASSWORD")
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(sender_email, app_password)
@@ -101,14 +105,13 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
     except Exception as e:
         print(f"❌ Error sending email: {e}")
 
-    # Optionally sync to Google Sheets (if configured)
     try:
         append_lead_to_sheet(name, email, business, description, package, style, prompt)
-
     except Exception as e:
         print(f"❌ Error syncing to Google Sheet: {e}")
 
     return redirect('/thankyou')
+
 
 
 @app.route('/thankyou')
