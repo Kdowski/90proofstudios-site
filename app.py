@@ -3,7 +3,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from prompt_email_util import generate_prompt, send_prompt_email
 from sheet_sync_util import append_lead_to_sheet
-from prompt_email_util import generate_prompt_via_openai
+from prompt_email_util import generate_prompt_openai, send_prompt_email
+
 
 
 
@@ -32,7 +33,13 @@ def submit():
         return "Missing required fields", 400
 
     # Generate AI image prompt
-    prompt = generate_prompt_via_openai(name, description, style)
+    try:
+        prompt = generate_prompt_openai(name, business, description, style)
+        send_prompt_email(prompt, email, name)
+    except Exception as e:
+        print(f"❌ Failed to generate or email prompt: {e}")
+        prompt = "Prompt generation failed"
+
 
 
     sender_email = "the90proofstudios@gmail.com"

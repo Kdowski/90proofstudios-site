@@ -6,12 +6,22 @@ import os
 import openai
 from generate_openai_prompt import generate_image_prompt
 
-
 # Authenticate with OpenAI
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-def generate_prompt(name, description, style):
-    return generate_image_prompt(name, description, style)
+
+def generate_prompt_openai(name, business, description, style):
+    """
+    Uses your custom GPT logic to generate a prompt,
+    then sends that prompt to OpenAI's image API and returns both.
+    """
+    try:
+        prompt = generate_image_prompt(name, business, description, style)
+        image_url = generate_image_url(prompt)
+        return prompt, image_url
+    except Exception as e:
+        print(f"❌ Error in OpenAI generation: {e}")
+        return "Prompt generation failed", "Image generation failed"
 
 
 def generate_image_url(prompt, size="1024x1024"):
@@ -30,6 +40,7 @@ def generate_image_url(prompt, size="1024x1024"):
     except Exception as e:
         print(f"❌ Error generating image: {e}")
         return "Error generating image"
+
 
 def send_prompt_email(prompt, image_url, client_email, client_name):
     """
