@@ -4,21 +4,15 @@ import smtplib
 from email.mime.text import MIMEText
 import os
 import openai
+from generate_openai_prompt import generate_image_prompt
+
 
 # Authenticate with OpenAI
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 def generate_prompt(name, description, style):
-    """
-    Creates a prompt designed for OpenAI’s DALL·E 3 model.
-    """
-    return (
-        f"Logo design for a brand called '{name}', "
-        f"focused on a {style.strip().lower()} aesthetic. "
-        f"The brand’s theme or inspiration is: {description.strip().lower()}. "
-        f"Create a clean, high-contrast, modern vector-style logo. "
-        f"No background, centered composition, suitable for both digital and print media."
-    )
+    return generate_image_prompt(name, description, style)
+
 
 def generate_image_url(prompt, size="1024x1024"):
     """
