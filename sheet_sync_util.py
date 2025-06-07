@@ -3,20 +3,6 @@ import gspread
 import json
 from google.oauth2.service_account import Credentials
 
-import json
-
-def get_gsheet_client():
-    try:
-        json_path = os.environ.get("GOOGLE_SHEET_CREDS_JSON")
-        with open(json_path) as f:
-            service_account_info = json.load(f)
-        creds = Credentials.from_service_account_info(service_account_info, scopes=SCOPE)
-        return gspread.authorize(creds)
-    except Exception as e:
-        print(f"❌ Failed to authorize Google Sheets client: {e}")
-        raise
-
-
 # Define the scopes
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -25,12 +11,14 @@ SCOPE = [
 
 def get_gsheet_client():
     try:
-        creds_json = os.environ.get("GOOGLE_SHEET_CREDS_JSON")
-        if not creds_json:
-            raise Exception("GOOGLE_SHEET_CREDS_JSON is not set")
+        json_path = os.environ.get("GOOGLE_SHEET_CREDS_JSON")
+        if not json_path:
+            raise Exception("GOOGLE_SHEET_CREDS_JSON is not set or is empty")
 
-        creds_dict = json.loads(creds_json)
-        creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPE)
+        with open(json_path) as f:
+            service_account_info = json.load(f)
+
+        creds = Credentials.from_service_account_info(service_account_info, scopes=SCOPE)
         client = gspread.authorize(creds)
         return client
     except Exception as e:
