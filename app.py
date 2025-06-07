@@ -36,7 +36,7 @@ def submit():
 
     # Generate image prompt and image URL
     try:
-        prompt = generate_prompt(name, description, style)
+        prompt = generate_image_prompt(name, description, style)
         image_url = generate_image_url(prompt)
         send_prompt_email(prompt, image_url, email, name)
     except Exception as e:
