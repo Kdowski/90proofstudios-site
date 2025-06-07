@@ -1,8 +1,8 @@
 import openai
 import os
 
-# Load API key from environment variable
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+# Configure OpenAI client
+client = openai.OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 def generate_image_prompt(name, description, style):
     """Generates a prompt optimized for OpenAI's image model (DALL·E)."""
@@ -22,10 +22,11 @@ Instructions:
 - Output only the final image prompt, no preamble or summary
 """
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o",
         messages=[{"role": "user", "content": base_prompt}],
         temperature=0.7,
     )
 
-    return response['choices'][0]['message']['content'].strip()
+    return response.choices[0].message.content.strip()
+
