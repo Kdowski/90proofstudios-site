@@ -94,7 +94,8 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
 
     # Optionally sync to Google Sheets (if configured)
     try:
-        append_lead_to_sheet(name, email, business, description, package, style)
+        append_lead_to_sheet(name, email, business, description, package, style, prompt)
+
     except Exception as e:
         print(f"❌ Error syncing to Google Sheet: {e}")
 
