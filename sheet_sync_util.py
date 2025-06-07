@@ -19,3 +19,13 @@ def append_lead_to_sheet(name, email, business, description, package, style, pro
     except Exception as e:
         print(f"❌ Error syncing to Google Sheet: {e}")
 
+def get_gsheet_client():
+    creds_json = os.environ.get("GOOGLE_CREDENTIALS_JSON")
+    if not creds_json:
+        raise Exception("Missing GOOGLE_CREDENTIALS_JSON environment variable.")
+
+    import json
+    creds_dict = json.loads(creds_json)
+
+    credentials = Credentials.from_service_account_info(creds_dict, scopes=SCOPE)
+    return gspread.authorize(credentials)
