@@ -26,18 +26,18 @@ def submit():
     description = request.form.get('description')
     package = request.form.get('package')
     style = request.form.get('style')
+
     if not name or not email or not package:
         return "Missing required fields", 400
 
-    # --- Email alert setup (to you) ---
+    # Generate AI image prompt
+    prompt = generate_prompt(name, description, style)
+
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
 
-        # Generate logo prompt
-    prompt = generate_prompt(name, description, style)
-
     subject = f"New Lead: {name} – {package}"
-    body = f"""\ 
+    body = f"""\
 You've received a new intake form submission:
 
 Full Name: {name}
@@ -47,20 +47,19 @@ Description: {description}
 Package: {package}
 Style Preferences: {style}
 
-Generated Prompt:
--------------------------
+📸 Generated AI Image Prompt:
+-----------------------------------
 {prompt}
 
 Submitted via 90proofstudios.com
 """
-
 
     msg = MIMEText(body, 'plain', 'utf-8')
     msg['From'] = sender_email
     msg['To'] = receiver_email
     msg['Subject'] = subject
 
-    # --- Auto-confirmation email to client ---
+    # Auto-confirmation email to client
     confirmation_subject = "Thanks for contacting 90 Proof Studios!"
     confirmation_body = f"""\
 Hi {name},
@@ -84,26 +83,23 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
     confirmation_msg['Subject'] = confirmation_subject
 
     try:
-        # 🔥 FIX: Both emails sent inside this block
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(sender_email, app_password)
-
-            # Send to admin
             server.sendmail(sender_email, receiver_email, msg.as_string())
             print("✅ Email sent to admin")
-
-            # Send to client
             server.sendmail(sender_email, email, confirmation_msg.as_string())
             print("✅ Confirmation email sent to client")
-
     except Exception as e:
         print(f"❌ Error sending email: {e}")
-        
-    append_lead_to_sheet(name, email, business, description, package, style)
-  
- 
+
+    # Optionally sync to Google Sheets (if configured)
+    try:
+        append_lead_to_sheet(name, email, business, description, package, style)
+    except Exception as e:
+        print(f"❌ Error syncing to Google Sheet: {e}")
 
     return redirect('/thankyou')
+
 
 @app.route('/thankyou')
 def thankyou():
