@@ -1,11 +1,8 @@
 import smtplib
 from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from prompt_email_util import send_prompt_email  # image_url removed
+from prompt_email_util import send_prompt_email
 from generate_openai_prompt import generate_image_prompt
 from sheet_sync_util import append_lead_to_sheet
-# from prompt_email_util import generate_prompt_openai, generate_image_url  # COMMENTED OUT
-
 
 from flask import Flask, render_template, request, redirect
 import os
@@ -28,17 +25,15 @@ def submit():
     if not name or not email or not package:
         return "Missing required fields", 400
 
-    # Generate only the image prompt (no API call)
+    # Generate prompt (no image API call)
     try:
         prompt = generate_image_prompt(name, description, style)
-        # image_url = generate_image_url(prompt)  # COMMENTED OUT
-        send_prompt_email(prompt, None, email, name)  # Only sending prompt to admin
+        send_prompt_email(prompt, email, name)  # Only prompt passed to admin
     except Exception as e:
         print(f"❌ Failed to generate or email prompt: {e}")
         prompt = "Prompt generation failed"
-        # image_url = "No image URL"
 
-    # Compose email to admin (prompt only)
+    # Email to admin (includes prompt)
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
     subject = f"New Lead: {name} – {package}"
@@ -64,7 +59,7 @@ Submitted via 90proofstudios.com
     msg['To'] = receiver_email
     msg['Subject'] = subject
 
-    # Confirmation email to client (prompt not included)
+    # Client confirmation (no prompt included)
     confirmation_subject = "Thanks for contacting 90 Proof Studios!"
     confirmation_body = f"""Hi {name},
 
