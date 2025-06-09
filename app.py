@@ -1,21 +1,14 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from prompt_email_util import generate_image_url, send_prompt_email
+from prompt_email_util import send_prompt_email  # image_url removed
 from generate_openai_prompt import generate_image_prompt
 from sheet_sync_util import append_lead_to_sheet
-from prompt_email_util import generate_prompt_openai, generate_image_url, send_prompt_email
-
-
-
-
+# from prompt_email_util import generate_prompt_openai, generate_image_url  # COMMENTED OUT
 
 
 from flask import Flask, render_template, request, redirect
-
 import os
-app_password = os.environ.get("EMAIL_APP_PASSWORD")
-
 
 app = Flask(__name__)
 
@@ -35,17 +28,17 @@ def submit():
     if not name or not email or not package:
         return "Missing required fields", 400
 
-    # Generate image prompt and image URL
+    # Generate only the image prompt (no API call)
     try:
         prompt = generate_image_prompt(name, description, style)
-        image_url = generate_image_url(prompt)
-        send_prompt_email(prompt, image_url, email, name)
+        # image_url = generate_image_url(prompt)  # COMMENTED OUT
+        send_prompt_email(prompt, None, email, name)  # Only sending prompt to admin
     except Exception as e:
-        print(f"❌ Failed to generate or email prompt/image: {e}")
+        print(f"❌ Failed to generate or email prompt: {e}")
         prompt = "Prompt generation failed"
-        image_url = "No image URL"
+        # image_url = "No image URL"
 
-    # Compose email to admin
+    # Compose email to admin (prompt only)
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
     subject = f"New Lead: {name} – {package}"
@@ -59,13 +52,9 @@ Description: {description}
 Package: {package}
 Style Preferences: {style}
 
-📸 Generated AI Image Prompt:
+🧠 Generated AI Image Prompt:
 -----------------------------------
 {prompt}
-
-🖼️ Image URL:
------------------------------------
-{image_url}
 
 Submitted via 90proofstudios.com
 """
@@ -75,7 +64,7 @@ Submitted via 90proofstudios.com
     msg['To'] = receiver_email
     msg['Subject'] = subject
 
-    # Confirmation email to client
+    # Confirmation email to client (prompt not included)
     confirmation_subject = "Thanks for contacting 90 Proof Studios!"
     confirmation_body = f"""Hi {name},
 
@@ -115,12 +104,9 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
 
     return redirect('/thankyou')
 
-
-
 @app.route('/thankyou')
 def thankyou():
     return render_template('thankyou.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
