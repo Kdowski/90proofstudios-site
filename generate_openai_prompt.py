@@ -1,32 +1,15 @@
-import openai
-import os
-
-# Configure OpenAI client
-client = openai.OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
 def generate_image_prompt(name, description, style):
-    """Generates a prompt optimized for OpenAI's image model (DALL·E)."""
-    base_prompt = f"""
-You're an expert brand designer. Generate a single image prompt for DALL·E to create a logo based on the following:
+    """
+    Generates a static prompt using local logic only (no OpenAI API).
+    This is a placeholder that mimics the style of a GPT-generated prompt.
+    """
 
-Client Name: {name}
-Brand Description: {description}
-Style Preferences: {style}
-
-Instructions:
-- Make the prompt extremely clear, visual, and specific
-- Focus on digital logo use cases
-- Avoid words like 'logo' or 'text' in the prompt
-- Avoid clutter or mixed metaphors
-- Use design language, mood, and color references where appropriate
-- Output only the final image prompt, no preamble or summary
-"""
-
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": base_prompt}],
-        temperature=0.7,
+    prompt = (
+        f"A modern, visually striking digital logo inspired by the brand '{name}', "
+        f"which focuses on {description.lower().strip()}. "
+        f"The design should reflect a {style.lower().strip()} aesthetic using clean lines, balanced composition, "
+        f"and a professional color palette. Avoid using text or over-complicating the layout. "
+        f"Think in terms of logo application for digital media, branding kits, and merch packaging."
     )
 
-    return response.choices[0].message.content.strip()
-
+    return prompt
