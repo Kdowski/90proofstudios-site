@@ -3,16 +3,7 @@ from email.mime.text import MIMEText
 import os
 from generate_openai_prompt import generate_image_prompt
 
-def generate_prompt_openai(name, business, description, style):
-    """
-    Generates a prompt using custom GPT logic only.
-    """
-    try:
-        prompt = generate_image_prompt(name, business, description, style)
-        return prompt
-    except Exception as e:
-        print(f"❌ Error in prompt generation: {e}")
-        return "Prompt generation failed"
+
 
 # ⛔️ DALL·E image generation is disabled but retained for future use.
 # def generate_image_url(prompt, size="1024x1024"):
