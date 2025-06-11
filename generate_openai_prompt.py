@@ -4,6 +4,7 @@ def generate_image_prompts(name, description, style):
     - clean_prompt: straightforward, modern, and minimal
     - mood_prompt: more artistic, evocative, and abstract
     """
+
     name = name.strip()
     description = description.strip().lower()
     style = style.strip().lower()
