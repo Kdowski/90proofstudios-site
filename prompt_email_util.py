@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 import os
 
 # Import your new static prompt generator
-from generate_openai_prompt import generate_image_prompt
+from generate_openai_prompt import generate_image_prompts
 
 
 
