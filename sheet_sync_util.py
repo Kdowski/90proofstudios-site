@@ -25,13 +25,24 @@ def get_gsheet_client():
         print(f"❌ Failed to authorize Google Sheets client: {e}")
         raise
 
-def append_lead_to_sheet(name, email, business, description, package, style, prompt):
+def append_lead_to_sheet(name, email, business, description, package, style, prompt_v1, prompt_v2):
+    """
+    Appends the full intake submission and both prompt variants to the Google Sheet.
+    """
     try:
         client = get_gsheet_client()
         sheet = client.open("90ProofStudios_Leads").sheet1
 
-        # Append all lead details plus the generated image prompt
-        sheet.append_row([name, email, business, package, style, description, prompt])
-        print("🟢 Lead and prompt synced to Google Sheet.")
+        sheet.append_row([
+            name,
+            email,
+            business,
+            package,
+            style,
+            description,
+            prompt_v1,
+            prompt_v2
+        ])
+        print("🟢 Lead and both prompts synced to Google Sheet.")
     except Exception as e:
         print(f"❌ Error syncing to Google Sheet: {e}")
