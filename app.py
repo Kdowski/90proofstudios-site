@@ -1,7 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from prompt_email_util import send_prompt_email
-from generate_openai_prompt import generate_image_prompt
+from generate_openai_prompt import generate_image_prompt, generate_polished_prompt  # new import
 from sheet_sync_util import append_lead_to_sheet
 
 from flask import Flask, render_template, request, redirect
@@ -25,15 +25,18 @@ def submit():
     if not name or not email or not package:
         return "Missing required fields", 400
 
-    # Generate prompt (no image API call)
+    # Generate both prompt variants
     try:
-        prompt = generate_image_prompt(name, description, style)
-        send_prompt_email(prompt, email, name)  # Only prompt passed to admin
+        prompt_v1 = generate_image_prompt(name, description, style)
+        prompt_v2 = generate_polished_prompt(name, description, style)
+        combined_prompt = f"{prompt_v1}\n\n---\n\n{prompt_v2}"
+        send_prompt_email(combined_prompt, email, name)
     except Exception as e:
         print(f"❌ Failed to generate or email prompt: {e}")
-        prompt = "Prompt generation failed"
+        prompt_v1 = "Prompt generation failed"
+        prompt_v2 = "Prompt generation failed"
 
-    # Email to admin (includes prompt)
+    # Email to admin
     sender_email = "the90proofstudios@gmail.com"
     receiver_email = "the90proofstudios@gmail.com"
     subject = f"New Lead: {name} – {package}"
@@ -47,9 +50,13 @@ Description: {description}
 Package: {package}
 Style Preferences: {style}
 
-🧠 Generated AI Image Prompt:
+🧠 Prompt v1 (Descriptive Rules):
 -----------------------------------
-{prompt}
+{prompt_v1}
+
+🧠 Prompt v2 (Polished & Professional):
+-----------------------------------
+{prompt_v2}
 
 Submitted via 90proofstudios.com
 """
@@ -59,7 +66,7 @@ Submitted via 90proofstudios.com
     msg['To'] = receiver_email
     msg['Subject'] = subject
 
-    # Client confirmation (no prompt included)
+    # Client confirmation (unchanged)
     confirmation_subject = "Thanks for contacting 90 Proof Studios!"
     confirmation_body = f"""Hi {name},
 
@@ -93,7 +100,7 @@ We’ll be in touch soon to get started. If you have any questions in the meanti
         print(f"❌ Error sending email: {e}")
 
     try:
-        append_lead_to_sheet(name, email, business, description, package, style, prompt)
+        append_lead_to_sheet(name, email, business, description, package, style, prompt_v1, prompt_v2)
     except Exception as e:
         print(f"❌ Error syncing to Google Sheet: {e}")
 
