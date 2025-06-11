@@ -1,7 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from prompt_email_util import send_prompt_email
-from generate_openai_prompt import generate_image_prompt, generate_polished_prompt  # new import
+from generate_openai_prompt import generate_image_prompts  # new import
 from sheet_sync_util import append_lead_to_sheet
 
 from flask import Flask, render_template, request, redirect
@@ -27,8 +27,7 @@ def submit():
 
     # Generate both prompt variants
     try:
-        prompt_v1 = generate_image_prompt(name, description, style)
-        prompt_v2 = generate_polished_prompt(name, description, style)
+        prompt_v1, prompt_v2 = generate_image_prompts(name, description, style)
         combined_prompt = f"{prompt_v1}\n\n---\n\n{prompt_v2}"
         send_prompt_email(combined_prompt, email, name)
     except Exception as e:
