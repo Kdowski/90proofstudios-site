@@ -153,13 +153,15 @@
   width: 250px;
   height: auto;
   border-radius: 10px;
-  border: 2px solid #00DDEB;
-  transition: transform 0.3s ease;
+  border: 2px solid #00FFC8; /* soft teal */
+  box-shadow: 0 0 10px #00FFC8;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .gallery img:hover {
   transform: scale(1.05);
-  border-color: #FF007A;
+  border-color: #00BFFF; /* electric blue */
+  box-shadow: 0 0 15px #00BFFF, 0 0 30px #00BFFF;
 }
 
   </style>
